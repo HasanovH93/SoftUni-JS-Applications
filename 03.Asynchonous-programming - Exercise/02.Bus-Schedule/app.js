@@ -6,7 +6,7 @@ function solve() {
   let stop = {
     next: "depot",
   };
-
+  
   async function depart() {
    departBtn.disabled = true;
    const url = `http://localhost:3030/jsonstore/bus/schedule/${stop.next}`;
