@@ -11,25 +11,31 @@ async function onSubmit(event) {
     if (email == "" || password == "") {
       throw new Error("All fields are required");
     }
-    if ([password != repass]) {
+    if (password != repass) {
       throw new Error("Passwords doesn't match");
     }
 
-    const response = await fetch("http://localhost/users/register", {
+    const response = await fetch("http://localhost:3030/users/register", {
       method: "POST",
       headers: {
-        "Content-Type": "applications/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         email,
-        password,
-      }),
+        password
+      })
     });
 
-    if(response.ok == false){
-        const error = await response.json();
-        throw Error(error.message)
+    if (response.ok == false) {
+      const error = await response.json();
+      throw Error(error.message);
     }
+
+    const data = await response.json();
+
+    sessionStorage.setItem("accessToken", data.accessToken);
+
+    window.location = '/04.Remote%20Data%20and%20Authentication/cookbook/';
   } catch (error) {
     alert(error.message);
   }
