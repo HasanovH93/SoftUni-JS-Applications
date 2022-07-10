@@ -3,6 +3,7 @@ async function getRecipes() {
     const recipes = await response.json();
 
     return Object.values(recipes);
+    
 }
 
 async function getRecipeById(id) {
