@@ -12,7 +12,7 @@
     </style>
   </head>
   <body>
-    <input type="text" name="token" id="token"><button>Make Authorized Request</button>
+ <button>Make Authorized Request</button>
 
 
     <h2>Register</h2>
@@ -32,7 +32,7 @@
       document.getElementById("register").addEventListener("submit", onRegister);
       document.getElementById("login").addEventListener("submit", onLogin);
       document.querySelector('button').addEventListener('click',async ()=>{
-        const token = document.getElementById('token').value;
+        const token = sessionStorage.getItem('accessToken')
 
         const response = await fetch('http://localhost:3030/data/recipes',{
             headers: {
@@ -67,7 +67,9 @@
             throw new Error(error.message);
           }
           const responseData = await response.json();
+         
           console.log(responseData);
+          sessionStorage.getItem('accessToken', responseData.accessToken)
         } catch (error) {
           alert(error.message);
         }
@@ -95,6 +97,7 @@
           }
           const responseData = await response.json();
           console.log(responseData);
+          sessionStorage.setItem('accessToken', responseData.accessToken)
         } catch (error) {
           alert(error.message);
         }
