@@ -30,18 +30,20 @@ async function solution() {
   });
 
   async function toggle(event) {
-
-
     const accordion = event.target.parentNode.parentNode;
-    const p = event.target.parentNode.parentNode.children[1].children[0];
-    console.log(p)
+    const p = event.target.parentNode.parentNode.children[0].children[0];
+    const extra = event.target.parentNode.parentNode.children[0]
+
     const id = event.target.id;
 
     const url = `http://localhost:3030/jsonstore/advanced/articles/details/${id}`;
     const response = await fetch(url);
     const data = await response.json();
-  
+    p.textContent = data.content;
 
+    const hidden = event.target.textContent === "More";
+    extra.style.display = hidden ? "block" : "none";
+    event.target.textContent = hidden ? 'Less':'More'
   }
 
   function createElement(type, content, attributes = []) {
