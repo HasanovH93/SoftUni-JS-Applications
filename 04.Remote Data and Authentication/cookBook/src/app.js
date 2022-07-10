@@ -1,16 +1,14 @@
 async function getRecipes() {
   const response = await fetch(
-    "http://localhost:3030/jsonstore/cookbook/recipes"
+    "http://localhost:3030/data/recipes?select=_id%2Cname%2Cimg"
   );
   const recipes = await response.json();
 
-  return Object.values(recipes);
+  return recipes;
 }
 
 async function getRecipeById(id) {
-  const response = await fetch(
-    "http://localhost:3030/jsonstore/cookbook/details/" + id
-  );
+  const response = await fetch("http://localhost:3030/data/recipes/" + id);
   const recipe = await response.json();
 
   return recipe;
@@ -73,6 +71,17 @@ window.addEventListener("load", async () => {
 
   main.innerHTML = "";
   cards.forEach((c) => main.appendChild(c));
+});
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  const token = sessionStorage.getItem("accessToken");
+  fetch("http://localhost:3030/users/logout", {
+    headers: {
+      "X-Authorization": token,
+    },
+  });
+  sessionStorage.removeItem('accessToken')
+  window.location = '/04.Remote%20Data%20and%20Authentication/cookbook/';
 });
 
 function checkUser() {
