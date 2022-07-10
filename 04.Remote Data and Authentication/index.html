@@ -7,27 +7,15 @@
     <title>Document</title>
   </head>
   <body>
-    <script>
-      const data = {
-        "body": "has hasicha has hasicha",
-        "title": "Hasanov Hasan",
-      };
-      async function start() {
-        const reposne = await fetch(
-          "http://localhost:3030/jsonstore/blog/posts",
-          {
-            method: "POST",
-            headers: {
-              "Content-type": "application/json",
-            },
-            body: JSON.stringify(data),
-          }
-        );
-        const responseData = await reposne.json();
-        console.log(responseData);
-      }
 
-      start();
+    <ul id="list">
+        <div>
+            <input type="text" id="product"><button id="createBtn">Create</button>
+            <button id="refreshBtn">Refresh</button>
+        </div>
+    </ul>
+    <script src="demo.js">
+        
     </script>
   </body>
 </html>
