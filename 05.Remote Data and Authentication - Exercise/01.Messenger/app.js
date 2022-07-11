@@ -6,12 +6,15 @@ function attachEvents() {
   document.getElementById("refresh").addEventListener("click", refreshMsg);
 }
 async function postMsg() {
-    const [author,content] = [document.getElementById('author'),document.getElementById('content')];
-    if(author.value == "" || content.value == ""){
-        alert('All fields are required!')
-    }
-     request(url,{author:author.value,content:content.value})
-     messages.value += `\n${author.value}: ${content.value}`
+  const [author, content] = [
+    document.getElementById("author"),
+    document.getElementById("content"),
+  ];
+  if (author.value == "" || content.value == "") {
+    alert("All fields are required!");
+  }
+  request(url, { author: author.value, content: content.value });
+  messages.value += `\n${author.value}: ${content.value}`;
 }
 async function refreshMsg() {
   const response = await fetch(url);
@@ -35,8 +38,8 @@ async function request(url, option) {
       body: JSON.stringify(option),
     };
   }
-  const response = await fetch(url,option)
-  return await response.json()
+  const response = await fetch(url, option);
+  return await response.json();
 }
 
 attachEvents();
