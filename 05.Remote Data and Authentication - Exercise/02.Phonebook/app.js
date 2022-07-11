@@ -16,6 +16,9 @@ async function onLoad() {
     const { person, phone, _id } = x;
     const li = createElement("li", `${person}: ${phone}`, phoneBook);
     li.setAttribute("id", _id);
+    const dltBtn = createElement("button", "Delete", li);
+    dltBtn.setAttribute('id','btnDelete')
+    dltBtn.addEventListener('click',onDelete)
   });
 }
 
