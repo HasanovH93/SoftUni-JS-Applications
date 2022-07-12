@@ -8,6 +8,7 @@ document.getElementById("btnCreate").addEventListener("click", onCreate);
 
 function attachEvents() {}
 async function onLoad() {
+    phoneBook.innerHTML = ''
   const response = await fetch(url);
 
   const data = await response.json();
@@ -23,6 +24,7 @@ async function onLoad() {
 }
 
 async function onCreate() {
+    
   if (person.value !== "" || phone.value !== "") {
     const response = await fetch(url, {
       method: "POST",
@@ -34,7 +36,7 @@ async function onCreate() {
         phone: phone.value,
       }),
     });
-    ul.innerHTML = ''
+    phoneBook.innerHTML = ''
     loadBtn.click();
     person.value = "";
     phone.value = "";
