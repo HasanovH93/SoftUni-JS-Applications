@@ -1,45 +1,45 @@
-const url = "http://localhost:3030/jsonstore/messenger";
-const messages = document.getElementById("messages");
-
 function attachEvents() {
-  document.getElementById("submit").addEventListener("click", postMsg);
-  document.getElementById("refresh").addEventListener("click", refreshMsg);
+  document.getElementById("refresh").addEventListener("click", loadMessages);
+  document.getElementById("submit").addEventListener("click", onSubmit);
+  loadMessages();
 }
-async function postMsg() {
-  const [author, content] = [
-    document.getElementById("author"),
-    document.getElementById("content"),
-  ];
-  if (author.value == "" || content.value == "") {
-    alert("All fields are required!");
-  }
-  request(url, { author: author.value, content: content.value });
-  messages.value += `\n${author.value}: ${content.value}`;
-}
-async function refreshMsg() {
-  const response = await fetch(url);
 
+const authorInput = document.querySelector('[name="author"]');
+const contentInput = document.querySelector('[name="content"]');
+const list = document.getElementById("messages");
+attachEvents();
+
+async function onSubmit() {
+  const author = authorInput.value;
+  const content = contentInput.value;
+
+  await createMessage({ author, content });
+  contentInput.value = "";
+  list.value += "\n" + `${author}: ${content}`;
+}
+
+async function loadMessages() {
+  const url = "http://localhost:3030/jsonstore/messenger";
+  const response = await fetch(url);
   const data = await response.json();
 
-  messages.value = Object.values(data)
-    .map(({ author, content }) => {
-      return `${author}: ${content}`;
-    })
-    .join("\n");
+  const messages = Object.values(data);
+
+  const list = document.getElementById("messages");
+  list.value = messages.map((m) => `${m.author}: ${m.content}`).join("\n");
 }
 
-async function request(url, option) {
-  if (option) {
-    option = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(option),
-    };
-  }
-  const response = await fetch(url, option);
-  return await response.json();
-}
+async function createMessage(message) {
+  const url = "http://localhost:3030/jsonstore/messenger";
+  const options = {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(message),
+  };
 
-attachEvents();
+  const res = await fetch(url, options);
+  const result = await res.json();
+  return result;
+}

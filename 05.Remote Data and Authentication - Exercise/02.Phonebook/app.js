@@ -1,55 +1,60 @@
-const person = document.getElementById("person");
-const phone = document.getElementById("phone");
-const phoneBook = document.getElementById("phonebook");
-const url = "http://localhost:3030/jsonstore/phonebook";
-const loadBtn = document.getElementById("btnLoad");
-loadBtn.addEventListener("click", onLoad);
-document.getElementById("btnCreate").addEventListener("click", onCreate);
+function attachEvents() {
+  document.getElementById("btnLoad").addEventListener("click", loadContacts);
+  document.getElementById("btnCreate").addEventListener("click", onCreate);
 
-function attachEvents() {}
-async function onLoad() {
-    phoneBook.innerHTML = ''
-  const response = await fetch(url);
+  list.addEventListener("click", onDelete);
 
-  const data = await response.json();
-
-  Object.values(data).forEach((x) => {
-    const { person, phone, _id } = x;
-    const li = createElement("li", `${person}: ${phone}`, phoneBook);
-    li.setAttribute("id", _id);
-    const dltBtn = createElement("button", "Delete", li);
-    dltBtn.setAttribute("id", "btnDelete");
-    dltBtn.addEventListener("click", onDelete);
-  });
+  loadContacts();
 }
 
-async function onCreate() {
-    
-  if (person.value !== "" || phone.value !== "") {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        person: person.value,
-        phone: phone.value,
-      }),
-    });
-    phoneBook.innerHTML = ''
-    loadBtn.click();
-    person.value = "";
-    phone.value = "";
+const list = document.getElementById("phonebook");
+const personInput = document.getElementById("person");
+const phoneInput = document.getElementById("phone");
+
+attachEvents();
+
+async function onDelete(event) {
+  const id = event.target.dataset.id;
+  if (id != undefined) {
+    await deleteContact(id);
+    event.target.parentElement.remove();
   }
 }
 
-function createElement(type, content, appender) {
-  const resultElement = document.createElement(type);
-  resultElement.textContent = content;
-  appender.appendChild(resultElement);
-  return resultElement;
+async function onCreate() {
+  const person = personInput.value;
+  const phone = phoneInput.value;
+  const contact = { person, phone };
+  const result = await createContact(contact);
+
+  list.appendChild(createItem(result));
 }
 
-async function onDelete() {}
+async function loadContacts() {
+  const res = await fetch("http://localhost:3030/jsonstore/phonebook");
+  const data = await res.json();
+  list.replaceChildren(...Object.values(data).map(createItem));
+}
 
-attachEvents();
+function createItem(contact) {
+  const liElement = document.createElement("li");
+  liElement.innerHTML = `${contact.person}: ${contact.phone} <button data-id="${contact._id}">Delete</button>`;
+  return liElement;
+}
+async function createContact(contact) {
+  const res = await fetch("http://localhost:3030/jsonstore/phonebook", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(contact),
+  });
+  await res.json();
+}
+
+async function deleteContact(id) {
+  const res = await fetch("http://localhost:3030/jsonstore/phonebook/" + id, {
+    method: "delete",
+  });
+  await res.json();
+}

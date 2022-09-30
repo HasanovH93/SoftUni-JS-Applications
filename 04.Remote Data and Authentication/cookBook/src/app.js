@@ -1,6 +1,6 @@
 async function getRecipes() {
   const response = await fetch(
-    "http://localhost:3030/data/recipes?select=_id%2Cname%2Cimg"
+    "http://localhost:3030/data/recipes/"
   );
   const recipes = await response.json();
 
