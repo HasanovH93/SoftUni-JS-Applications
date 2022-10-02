@@ -7,7 +7,7 @@
     <title>SPA DEMO</title>
     <script src="/src/app.js" type="module"></script>
     <style>
-     #views {
+     #views #userNav #guestNav {
         display: none;
      }
      label {
@@ -20,10 +20,18 @@
         <a href="/" id="homeBtn">Home</a>
         <a href="/catalog" id="catalogBtn">Catalog</a>
         <a href="/about" id="aboutBtn">About</a>
-        <a href="/login" id="loginBtn">Login</a>
-        <a href="/register" id="registerBtn">Register</a>
+        <div id="guestNav">
+            <a href="/login" id="loginBtn">Login</a>
+            <a href="/register" id="registerBtn">Register</a>
+        </div>
+        <div id="userNav">
+            <a href="/create" id="createBtn">Create</a>
+            <a href="javascript:void(0)" id="logoutBtn">Logout</a>
+            <span id="greeting"></span>
+        </div>
+        
     </nav>
-    <h1>SPA Demo</h1>
+        <h1>SPA Demo</h1>
     <main>
         <div class="views">
             <section id="homeView">
@@ -52,6 +60,13 @@
                     <label>password <input type="password" name="password"></label>
                     <label>Repeat Password <input type="password" name="repass"></label>
                     <input type="submit" value="Sign up">
+                </form>
+            </section>
+            <section id="createView">
+                <h2>cCreate Movie</h2>
+                <form>
+                    <label>Title <input type="text" name="title"></label>
+                    <input type="submit" value="Create">
                 </form>
             </section>
         </div>
