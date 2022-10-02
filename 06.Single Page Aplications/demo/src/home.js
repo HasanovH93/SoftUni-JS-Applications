@@ -1,3 +1,6 @@
-export function showHome(){
-    document.getElementById('homeView').style.display = "block";
+const section = document.getElementById("homeView");
+section.remove();
+
+export function showHome() {
+  document.querySelector("main").replaceChildren(section);
 }
