@@ -17,6 +17,7 @@ async function onSubmit(event) {
   const password = formData.get("password");
 
   await login(email, password);
+  form.reset()
   updateNav();
   homePage();
 }
