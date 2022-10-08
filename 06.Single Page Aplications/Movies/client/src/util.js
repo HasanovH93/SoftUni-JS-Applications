@@ -1,6 +1,8 @@
 
+
+const views = [...document.querySelectorAll('.view-section')]
 export function hideAll(){
-    document.querySelectorAll('.view-section').forEach(v => v.style.display = 'none')
+    views.forEach(v => v.style.display = 'none')
  }
  
   
