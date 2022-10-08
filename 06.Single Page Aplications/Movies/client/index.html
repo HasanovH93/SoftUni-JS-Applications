@@ -17,16 +17,16 @@
         <a class="navbar-brand text-light" href="/">Movies</a>
         <ul class="navbar-nav ml-auto ">
             <li class="nav-item user">
-                <a class="nav-link user">Welcome, email</a>
+                <a class="nav-link" id="welcome-msg">Welcome, email</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link user" href="/logout">Logout</a>
+            <li class="nav-item user">
+                <a class="nav-link" href="/logout">Logout</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link guest" href="/login">Login</a>
+            <li class="nav-item guest">
+                <a class="nav-link " href="/login">Login</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link guest" href="/registers">Register</a>
+            <li class="nav-item guest">
+                <a class="nav-link " href="/registers">Register</a>
             </li>
         </ul>
     </nav>
@@ -40,7 +40,7 @@
         </div>
         <h1 class="text-center">Movies</h1>
 
-        <section id="add-movie-button">
+        <section id="add-movie-button" class="user">
             <a href="/create" class="btn btn-warning ">Add Movie</a>
         </section>
     

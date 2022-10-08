@@ -2,6 +2,7 @@ import { createPage } from "./create.js";
 import { homePage } from "./home.js";
 import { loginPage } from "./login.js";
 import { registerPage } from "./register.js";
+import { updateNav } from "./util.js";
 
 const routes = {
   "/": homePage,
@@ -32,9 +33,10 @@ function onNavigate(event) {
 
 
 function logout() {
-  alert("logged out");
+ localStorage.removeItem('user');
+ updateNav()
 }
 
 //start application in catalog view
-
+updateNav()
 homePage();
