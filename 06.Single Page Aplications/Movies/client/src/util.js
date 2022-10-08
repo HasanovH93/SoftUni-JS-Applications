@@ -10,4 +10,10 @@ export function hideAll(){
      hideAll()
      section.style.display = 'block';
  }
+
+ export function spinner() {
+    const element = document.createElement('p');
+    element.innerHTML = 'Loading &hellip;';
+    return element
+ }
  
