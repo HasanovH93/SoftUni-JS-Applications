@@ -1,45 +1,29 @@
-import { showHome } from "./home.js";
-import { checkUserNav } from "./util.js";
+import { post } from "./api.js";
+import { createSubmitHandler } from "./util.js";
 
 const section = document.getElementById("loginView");
 const form = section.querySelector("form");
-form.addEventListener("submit", onSubmit);
+createSubmitHandler(form,onSubmit)
 section.remove();
 
-export function showLogin() {
-  document.querySelector("main").replaceChildren(section);
+let ctx = null
+
+export function showLogin(inCtx) {
+  ctx = inCtx;
+ ctx.render(section);
 }
-async function onSubmit(event) {
-  event.preventDefault();
-  const formData = new FormData(form);
 
-  const email = formData.get("email").trim();
-  const password = formData.get("password").trim();
 
-  try {
-    const res = await fetch("http://localhost:3030/users/login", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
+async function onSubmit({email,password}) {
+  const data = await post('/users/login',{email,password})
+  const userData = {
+    email: data.email,
+    accessToken: data.accessToken,
+    id: data._id,
+  };
 
-    if (res.ok == false) {
-      const error = await res.json();
-      throw new Error(error.messages);
-    }
-    const data = await res.json();
-    const userData = {
-      email: data.email,
-      accessToken: data.accessToken,
-      id: data._id,
-    };
+  sessionStorage.setItem("userData", JSON.stringify(userData));
+  ctx.checkUserNav()
+  ctx.goTo('homeBtn')
 
-    sessionStorage.setItem("userData", JSON.stringify(userData));
-    checkUserNav();
-    showHome();
-  } catch (err) {
-    alert(err.message);
-  }
 }

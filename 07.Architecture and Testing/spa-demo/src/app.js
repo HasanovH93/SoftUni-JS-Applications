@@ -1,36 +1,47 @@
 import { showAbout } from "./about.js";
 import { showCatalog } from "./catalog.js";
 import { showCreate } from "./create.js";
+import { render } from "./dom.js";
 import { showHome } from "./home.js";
 import { showLogin } from "./login.js";
 import { showRegister } from "./register.js";
 import { checkUserNav, onLogout } from "./util.js";
 
-
 document.querySelector("nav").addEventListener("click", onNavigate);
-document.getElementById('logoutBtn').addEventListener('click', onLogout);
-checkUserNav()
-showHome()
+
 
 const sections = {
   'homeBtn': showHome,
   'catalogBtn': showCatalog,
-  'aboutBtn':  showAbout,
-  'loginBtn':  showLogin,
-  'registerBtn':  showRegister,
-  'createBtn': showCreate
+  'aboutBtn': showAbout,
+  'loginBtn': showLogin,
+  'registerBtn': showRegister,
+  'createBtn': showCreate,
+  "logoutBtn":onLogout
+
 };
+
+goTo('homeBtn');
 
 function onNavigate(event) {
   if (event.target.tagName == "A") {
-      const view = sections[event.target.id];
-      if(typeof view == 'function'){
-        event.preventDefault();
-       view()  
+    const viewName = event.target.id;
+    if (goTo(viewName)) {
+      event.preventDefault();
     }
   }
 }
 
-
-
-
+export function goTo(viewName) {
+  const view = sections[viewName];
+  if (typeof view == "function") {
+    view({
+      render,
+      goTo,
+      checkUserNav
+    });
+    return true;
+  } else {
+    return false;
+  }
+}

@@ -1,35 +1,18 @@
-import { showCatalog } from "./catalog.js";
+import { post  } from "./api.js";
+import { createSubmitHandler } from "./util.js";
 
 const section = document.getElementById("createView");
 const form = section.querySelector("form");
-form.addEventListener("submit", onSubmit);
+createSubmitHandler(form, onSubmit)
 section.remove();
 
-export function showCreate() {
-  document.querySelector("main").replaceChildren(section);
+let ctx = null
+
+export function showCreate(inCtx) {
+  ctx= inCtx;
+  ctx.render(section);
 }
-async function onSubmit(event) {
-  event.preventDefault();
-  const formData = new FormData(form);
-
-  const title = formData.get("title").trim();
-  try {
-    const res = await fetch("http://localhost:3030/data/movies", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        'X-Authorization': JSON.parse(sessionStorage.getItem('userData')).accessToken
-      },
-      body: JSON.stringify({title}),
-    });
-
-    if (res.ok == false) {
-      const error = await res.json();
-      throw new Error(error.messages);
-    }
-
-    showCatalog()
-  } catch (err) {
-    alert(err.message);
-  }
+async function onSubmit({title}) {
+  await post('/data/movies', {title})
+  ctx.goTo('catalogBtn')
 }
