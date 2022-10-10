@@ -14,11 +14,10 @@ const mocData = {
 };
 
 describe("Tests", async function () {
-  this.timeout(6000);
   let browser, page;
 
   before(async () => {
-    browser = await firefox.launch({ headless: false, slowMo: 5000 });
+    browser = await firefox.launch();
   });
 
   after(async () => {
@@ -57,4 +56,22 @@ describe("Tests", async function () {
     expect(rowData[1]).to.have.string("C# Fundamentals");
     expect(rowData[1]).to.have.string("Nakov");
   });
+
+  it('creates book', async () => {
+     await page.goto(url);
+
+     await page.fill('input[name=title]', 'Title');
+     await page.fill('input[name=author]', 'Author');
+
+   const [ request ] =  await Promise.all([
+      page.waitForRequest((request) => request.method() == 'POST'),
+      page.click('text=Submit')
+     ]);
+
+      const data = JSON.parse(request.postData());
+      expect(data.title).to.equal('Title');
+      expect(data.author).to.equal('Author');
+    });
+
+    
 });
