@@ -1,5 +1,6 @@
 //  import * as api from  './api/users.js';
 
+import { logout } from "./api/users.js";
 import { initialize } from "./router.js";
 import { showCatalog } from "./views/catalog.js";
 import { showCreate } from "./views/create.js";
@@ -19,14 +20,22 @@ const links = {
   "/login": showLogin,
   "/register": showRegister,
   "/create": showCreate,
-  "/detail": showDetails,
+  "/details": showDetails,
+  '/logout': onLogout,
 };
 
-const router = initialize(links)
+const router = initialize(links);
+router.updateNav();
 
 
 
 //start app in home view
 router.goTo('/')
 
+
+function onLogout(){
+  logout();
+  router.updateNav()
+  router.goTo('/')
+}
 

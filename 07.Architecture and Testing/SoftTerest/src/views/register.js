@@ -21,6 +21,8 @@ export function showRegister(context) {
     const password = formData.get('password');
 
     await register(email,password);
-    ctx.goTo('/')
+    form.reset();
+    ctx.updateNav();
+    ctx.goTo('/');
  
  }

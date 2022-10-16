@@ -24,7 +24,7 @@ export function showCreate(context) {
         description,
         img
     });
-
+    form.reset();
     ctx.goTo('/catalog')
 
  }
