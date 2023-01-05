@@ -58,3 +58,5 @@
 • HTML Templates and Slots;</br>
 • Component Lifecycle;</br>
 • Extending HTML Elements.</br>
+
+![Screenshot](139832.jpg)
