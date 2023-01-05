@@ -9,11 +9,11 @@ const { expect } = require("chai");
 // })();
 
 let browser, page; // Declare reusable variables
-describe("E2E tests", async function (done) {
+describe("E2E tests", async function () {
   this.timeout(5000);
 
   before(async () => {
-    browser = await firefox.launch({ headless: false, slowMo: 500 });
+    browser = await firefox.launch({ headless: false, slowMo: 5000 });
   });
   after(async () => {
     await browser.close();
@@ -52,7 +52,7 @@ describe("E2E tests", async function (done) {
     await page.goto("http://localhost:5500/Accordion");
 
     await page.click("text=More");
-    // await page.waitForSelector('.accordion')  
+    await page.waitForSelector('.accordion')  
     let visible = await page.isVisible(".accordion p");
     expect(visible).to.be.true;
 
@@ -61,4 +61,9 @@ describe("E2E tests", async function (done) {
     expect(visible).to.be.false;
 
   });
+
+//   it('fills input form', async () => {
+//     await page.goto("http://localhost:5500/Accordion");
+//     await page.fill('[name="email"]','peter@abv.bg');
+//   })
 });
